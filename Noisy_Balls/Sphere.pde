@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 class Sphere {
   PVector position;
   PVector velocity;
@@ -11,8 +13,9 @@ class Sphere {
   int num;
   float R, G, B;
   int counter = 0;
+  SoundFile sound;
 
-  Sphere(float x, float y, float z, float r_, int[] box, int i) {
+  Sphere(float x, float y, float z, float r_, int[] box, int i, SoundFile file) {
     position = new PVector(x, y, z);
     velocity = PVector.random3D();
     velocity.mult(2);
@@ -25,6 +28,7 @@ class Sphere {
     front = box[4];
     back = box[5];
     num = i;
+    sound = file;
     R = random(0, 255);
     G = random(0, 255);
     B = random(0, 255);
@@ -34,32 +38,43 @@ class Sphere {
     position.add(velocity);
   }
 
-  void checkBoundaryCollision() {
+  void checkBoundaryCollision(boolean mute) {
     if (position.x > right-radius) {
       position.x = right-radius;
       velocity.x *= -1;
       lights();
       counter = 120;
+      if (!mute) 
+        sound.play();
     } else if (position.x < left-radius) {
       position.x = left-radius;
       velocity.x *= -1;
       counter = 120;
+      if (!mute) 
+        sound.play();
     } else if (position.y > bottom-radius) {
       position.y = bottom-radius;
       velocity.y *= -1;
       counter = 120;
+      if (!mute) 
+        sound.play();
     } else if (position.y < top-radius) {
       position.y = top-radius;
       velocity.y *= -1;
       counter = 120;
+      if (!mute) sound.play();
     } else if(position.z < front-radius){
       position.z = front-radius;
       velocity.z *= -1;
       counter = 120;
+      if (!mute) 
+        sound.play();
     } else if(position.z > back-radius){
       position.z = back-radius;
       velocity.z *= -1;
       counter = 120;
+      if (!mute) 
+        sound.play();
     }
   }
 
